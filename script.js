@@ -6,10 +6,10 @@ const ctx = canvas.getContext("2d");
 let CW = document.documentElement.clientWidth - 40;
 let CH = document.documentElement.clientHeight;
 
-if (CW > 600 | CH > 600) {
-    CW = 600;
-    CH = 600;
-}
+// if (CW > 600 | CH > 600) {
+//     CW = 600;
+//     CH = 600;
+// }
 
 canvas.width = CW;
 canvas.height = CH;
@@ -32,6 +32,12 @@ canvas.addEventListener("mousedown", (e) => {
     isDrawing = true;
     
 });
+// Mobile copy quick fix
+canvas.addEventListener("touchstart", (e) => {
+    mouseX = e.offsetX;
+    mouseY = e.offsetY;
+    isDrawing = true;
+});
 
 canvas.addEventListener("mousemove", (e) => {
     if (isDrawing) {
@@ -41,7 +47,23 @@ canvas.addEventListener("mousemove", (e) => {
     }
 });
 
+// Mobile copy quick fix
+canvas.addEventListener("touchmove", (e) => {
+    if (isDrawing) {
+        drawLine(ctx, mouseX, mouseY, e.offsetX, e.offsetY);
+        mouseX = e.offsetX;
+        mouseY = e.offsetY;
+    }
+})
+
 window.addEventListener("mouseup", (e) => {
+    isDrawing = false;
+    mouseX = 0;
+    mouseY = 0;
+});
+
+// mobile copy quick fix
+window.addEventListener("touchend", (e) => {
     isDrawing = false;
     mouseX = 0;
     mouseY = 0;

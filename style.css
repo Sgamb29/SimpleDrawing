@@ -26,6 +26,7 @@ canvas {
     position: sticky;
     gap: 14px;
     top: 0;
+    flex-wrap: wrap;
     
 }
 
