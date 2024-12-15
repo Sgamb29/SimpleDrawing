@@ -34,8 +34,8 @@ canvas.addEventListener("mousedown", (e) => {
 });
 // Mobile copy quick fix
 canvas.addEventListener("touchstart", (e) => {
-    mouseX = e.offsetX;
-    mouseY = e.offsetY;
+    mouseX = e.touches[0].offsetX;
+    mouseY = e.touches[0].offsetY;
     isDrawing = true;
 });
 
@@ -50,9 +50,9 @@ canvas.addEventListener("mousemove", (e) => {
 // Mobile copy quick fix
 canvas.addEventListener("touchmove", (e) => {
     if (isDrawing) {
-        drawLine(ctx, mouseX, mouseY, e.offsetX, e.offsetY);
-        mouseX = e.offsetX;
-        mouseY = e.offsetY;
+        drawLine(ctx, mouseX, mouseY, e.touches[0].offsetX, e.touches[0].offsetY);
+        mouseX = e.touches[0].offsetX;
+        mouseY = e.touches[0].offsetY;
     }
 })
 
