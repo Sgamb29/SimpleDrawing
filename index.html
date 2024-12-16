@@ -3,13 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simply Drawing</title>
+    <title>Simple Drawing</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>Simply Drawing</h1>
-
+        <h1>Simple Drawing</h1>
+        <p><em>Canvas Adjustments</em></p>
+        <div class="controls controls2">
+            <button onclick="adjustHeight(10)">Increase Height</button>
+            <button onclick="adjustHeight(-10)">Decrease Height</button>
+            <button onclick="adjustWidth(10)">Increase Width</button>
+            <button onclick="adjustWidth(-10)">Decrease Width</button>
+        </div>
+        <p id="canvasSizeIndicator"></p>
+        <p><em>Pencil Adjustments</em></p>
         <div class="controls">
             <button onclick="saveImage()">Save Image</button>
             <button id="eraserToggle" onclick="toggleEraser()">Eraser</button>
@@ -17,6 +25,7 @@
             <button onclick="decreasePencil()">Decrease Size</button>
             <p class="indicator" id="sizeIndicator">Current Size: 1px</p>
         </div>
+
         <div class="savedImages" id="images">
 
         </div>

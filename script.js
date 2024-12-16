@@ -14,6 +14,7 @@ let CH = document.documentElement.clientHeight;
 canvas.width = CW;
 canvas.height = CH;
 
+updateCanvasSizeIndicator();
 
 let pencilStyle = "black";
 let pencilSize = 1;
@@ -22,6 +23,8 @@ let pencilSize = 1;
 ctx.fillStyle = "white";
 ctx.fillRect(0, 0, CW, CH);
 ctx.fillStyle = "black";
+
+
 
 let mouseX = 0;
 let mouseY = 0;
@@ -32,11 +35,14 @@ canvas.addEventListener("mousedown", (e) => {
     isDrawing = true;
     
 });
+
+
 // Mobile copy quick fix
 canvas.addEventListener("touchstart", (e) => {
     e.preventDefault();
-    mouseX = e.touches[0].offsetX;
-    mouseY = e.touches[0].offsetY;
+    const rect = canvas.getBoundingClientRect();
+    mouseX = e.touches[0].clientX - rect.left;
+    mouseY = e.touches[0].clientY - rect.top;
     isDrawing = true;
 });
 
@@ -52,9 +58,13 @@ canvas.addEventListener("mousemove", (e) => {
 canvas.addEventListener("touchmove", (e) => {
     if (isDrawing) {
         e.preventDefault();
-        drawLine(ctx, mouseX, mouseY, e.touches[0].offsetX, e.touches[0].offsetY);
-        mouseX = e.touches[0].offsetX;
-        mouseY = e.touches[0].offsetY;
+        const rect = canvas.getBoundingClientRect();
+        const currentX = e.touches[0].clientX - rect.left;
+        const currentY = e.touches[0].clientY - rect.top;
+        
+        drawLine(ctx, mouseX, mouseY, currentX, currentY);
+        mouseX = currentX;
+        mouseY = currentY;
     }
 })
 
@@ -106,6 +116,20 @@ function toggleEraser() {
         pencilStyle = "black";
         toggle.innerText = "Eraser";
     }
+}
+
+function adjustHeight(amount) {
+    canvas.height += amount;
+    updateCanvasSizeIndicator();
+}
+
+function adjustWidth(amount) {
+    canvas.width += amount;
+    updateCanvasSizeIndicator();
+}
+
+function updateCanvasSizeIndicator() {
+    document.getElementById("canvasSizeIndicator").innerText = `Current Canvas: ${canvas.width}x${canvas.height}`;
 }
 
 function increasePencil() {

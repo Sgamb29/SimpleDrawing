@@ -30,6 +30,10 @@ canvas {
     
 }
 
+.controls2 {
+    position: relative;
+}
+
 button, .indicator {
     font-size: medium;
     border: 1px solid black;
