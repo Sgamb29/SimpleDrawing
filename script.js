@@ -39,6 +39,10 @@ canvas.addEventListener("mousedown", (e) => {
 
 // Mobile copy quick fix
 canvas.addEventListener("touchstart", (e) => {
+    if (e.touches.length > 1) {
+        mouseY = e.touches[0].clientY;
+        return;
+    }
     e.preventDefault();
     const rect = canvas.getBoundingClientRect();
     mouseX = e.touches[0].clientX - rect.left;
@@ -56,6 +60,13 @@ canvas.addEventListener("mousemove", (e) => {
 
 // Mobile copy quick fix
 canvas.addEventListener("touchmove", (e) => {
+
+    if (e.touches.length > 1) {
+        const delta = mouseY - e.touches[0].clientY;
+        mouseY = e.touches[0].clientY;
+        window.scrollBy(0, delta);
+        return;
+    }
     if (isDrawing) {
         e.preventDefault();
         const rect = canvas.getBoundingClientRect();
