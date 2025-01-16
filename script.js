@@ -143,15 +143,60 @@ function updateCanvasSizeIndicator() {
     document.getElementById("canvasSizeIndicator").innerText = `Current Canvas: ${canvas.width}x${canvas.height}`;
 }
 
-function increasePencil() {
-    pencilSize += 1;
-    document.getElementById("sizeIndicator").innerText = `Current Size: ${pencilSize}px`;
+function increasePencil(num=1,toDefault=false) {
+    pencilSize += num;
+    if (num > 1 || toDefault) {
+        pencilSize = num;
+    }
+    displayPencilSize();
 }
 
 function decreasePencil() {
     if (pencilSize > 1) {
         pencilSize -= 1;
     }  
-    document.getElementById("sizeIndicator").innerText = `Current Size: ${pencilSize}px`;
+    displayPencilSize();
 
 }
+
+function displayPencilSize() {
+    document.getElementById("sizeIndicator").innerText = `Current Size: ${pencilSize}px`;
+}
+
+// Logic for quick pencil size adjustments and toggling eraser.
+let numsPressed = ""; 
+document.addEventListener("keypress", (e) => {
+    if (e.key === "e") {
+        toggleEraser();
+        return;
+    }
+    const valid = "0123456789";
+    if (e.key === "Enter" && numsPressed.length) {
+        pencilSize = parseInt(numsPressed);
+        numsPressed = "";
+        displayPencilSize();
+        return;
+    }
+    for (let i = 0; i < valid.length; i++) {
+        if (e.key === valid[i]) {
+            numsPressed = numsPressed + valid[i];
+            if (numsPressed.length > 3) {
+                numsPressed = "";
+            }
+            break;
+        }
+    }
+})
+
+// Adding traffic count fetch call
+// Traffic
+const request = new Request("https://server.sgambapps.com/?site=simpleDrawing", {
+    method: "POST",
+});
+fetch(request)
+.then(res => {
+    if (res.ok) {
+    console.log("visit counted");
+    }
+})
+.catch(err => console.log(err));

@@ -10,6 +10,7 @@
     <div class="container">
         <h1>Simple Drawing</h1>
         <p><em>On mobile to scroll vertically on canvas: touch and drag with 2 fingers.</em></p>
+        <p><em>For quick pencil size adjustments on pc: type a number and then press Enter. Press e to toggle eraser on and off.</em></p>
         <p><em>Canvas Adjustments</em></p>
         <div class="controls controls2">
             <button onclick="adjustHeight(10)">Increase Height</button>
@@ -21,10 +22,20 @@
         <p><em>Pencil Adjustments</em></p>
         <div class="controls">
             <button onclick="saveImage()">Save Image</button>
-            <button id="eraserToggle" onclick="toggleEraser()">Eraser</button>
             <button onclick="increasePencil()">Increase Size</button>
             <button onclick="decreasePencil()">Decrease Size</button>
             <p class="indicator" id="sizeIndicator">Current Size: 1px</p>
+        </div>
+        <p><em>Quick Size Adjustments</em></p>
+        <div class="controls">
+            <button id="eraserToggle" onclick="toggleEraser()">Eraser</button>
+            <button onclick="increasePencil(1, true)">1</button>
+            <button onclick="increasePencil(5)">5</button>
+            <button onclick="increasePencil(10)">10</button>
+            <button onclick="increasePencil(20)">20</button>
+            <button onclick="increasePencil(30)">30</button>
+            <button onclick="increasePencil(40)">40</button>
+            <button onclick="increasePencil(50)">50</button>
         </div>
 
         <div class="savedImages" id="images">
