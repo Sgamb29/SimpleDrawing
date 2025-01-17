@@ -129,14 +129,24 @@ function toggleEraser() {
     }
 }
 
+function replaceCanvasImageAfterResize() {
+    
+}
+
+let currentCanvasData = null;
+
 function adjustHeight(amount) {
+    currentCanvasData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     canvas.height += amount;
     updateCanvasSizeIndicator();
+    ctx.putImageData(currentCanvasData, 0, 0);
 }
 
 function adjustWidth(amount) {
+    currentCanvasData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     canvas.width += amount;
     updateCanvasSizeIndicator();
+    ctx.putImageData(currentCanvasData, 0, 0);
 }
 
 function updateCanvasSizeIndicator() {
