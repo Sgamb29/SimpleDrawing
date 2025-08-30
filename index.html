@@ -9,33 +9,34 @@
 <body>
     <div class="container">
         <h1>Simple Drawing</h1>
-        <p><em>On mobile to scroll vertically on canvas: touch and drag with 2 fingers.</em></p>
-        <p><em>For quick pencil size adjustments on pc: type a number and then press Enter. Press e to toggle eraser on and off.</em></p>
-        <p><em>Canvas Adjustments</em></p>
+        <p class="description"><em>Notes:<br>Two finger touch to scroll up/down on canvas.<br>
+        Pencil size adjustment on pc: type a number and Enter, e to toggle eraser.
+        <br><br></em></p>
+        <p><em>Canvas Adjustments:</em></p>
         <div class="controls controls2">
-            <button onclick="adjustHeight(10)">Increase Height</button>
-            <button onclick="adjustHeight(-10)">Decrease Height</button>
-            <button onclick="adjustWidth(10)">Increase Width</button>
-            <button onclick="adjustWidth(-10)">Decrease Width</button>
+            <button onclick="adjustHeight(10)">+ Height</button>
+            <button onclick="adjustHeight(-10)">- Height</button>
+            <button onclick="adjustWidth(10)">+ Width</button>
+            <button onclick="adjustWidth(-10)">- Width</button>
         </div>
         <p id="canvasSizeIndicator"></p>
-        <p><em>Pencil Adjustments</em></p>
         <div class="controls">
             <button onclick="saveImage()">Save Image</button>
-            <button onclick="increasePencil()">Increase Size</button>
-            <button onclick="decreasePencil()">Decrease Size</button>
-            <p class="indicator" id="sizeIndicator">Current Size: 1px</p>
+            <p class="indicator" id="sizeIndicator">Current pencil: 1px</p>
         </div>
-        <p><em>Quick Size Adjustments</em></p>
+        <p><em>Quick Size / Shade Adjustments</em></p>
         <div class="controls">
             <button id="eraserToggle" onclick="toggleEraser()">Eraser</button>
+            <button onclick="increasePencil()">+ 1px</button>
+            <button onclick="decreasePencil()">- 1px</button>
             <button onclick="increasePencil(1, true)">1</button>
             <button onclick="increasePencil(5)">5</button>
             <button onclick="increasePencil(10)">10</button>
             <button onclick="increasePencil(20)">20</button>
-            <button onclick="increasePencil(30)">30</button>
-            <button onclick="increasePencil(40)">40</button>
-            <button onclick="increasePencil(50)">50</button>
+        </div>
+        <div class="controls">
+            <button id="shadeIndicator">Shade</button>
+            <input id="shadeSlider" type="range" value="0" step="5" max="255" min="0" oninput="changeShade()">
         </div>
 
         <div class="savedImages" id="images">

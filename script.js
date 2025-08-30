@@ -1,15 +1,8 @@
-
-
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
 let CW = document.documentElement.clientWidth - 40;
 let CH = document.documentElement.clientHeight;
-
-// if (CW > 600 | CH > 600) {
-//     CW = 600;
-//     CH = 600;
-// }
 
 canvas.width = CW;
 canvas.height = CH;
@@ -18,13 +11,11 @@ updateCanvasSizeIndicator();
 
 let pencilStyle = "black";
 let pencilSize = 1;
-
+let onEraser = false;
 
 ctx.fillStyle = "white";
 ctx.fillRect(0, 0, CW, CH);
 ctx.fillStyle = "black";
-
-
 
 let mouseX = 0;
 let mouseY = 0;
@@ -35,7 +26,6 @@ canvas.addEventListener("mousedown", (e) => {
     isDrawing = true;
     
 });
-
 
 // Mobile copy quick fix
 canvas.addEventListener("touchstart", (e) => {
@@ -92,7 +82,6 @@ window.addEventListener("touchend", (e) => {
     mouseY = 0;
 });
 
-
 function drawLine(context, x1, y1, x2, y2) {
     context.beginPath();
     context.strokeStyle = pencilStyle;
@@ -103,19 +92,29 @@ function drawLine(context, x1, y1, x2, y2) {
     context.closePath();
 }
 
-
 function getDateString() {
     const date = new Date();
     return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}-${date.getHours()}-${date.getMinutes()}-${date.getSeconds()}`;
 }
 
 function saveImage() {
+    const imagesContainer = document.getElementById("images");
+    // Removes old links
+    imagesContainer.innerHTML = "";
+    // Creates download link
     const dataUrl = canvas.toDataURL();
     const newA = document.createElement("a");
     newA.href = dataUrl;
     newA.download = getDateString();
-    newA.innerText = "Download Image: " + newA.download;
-    document.getElementById("images").appendChild(newA);
+    newA.innerText = "Save Image: " + newA.download + ".png";
+    imagesContainer.appendChild(newA);
+    // Creates cancel button
+    const xButton = document.createElement("button");
+    xButton.innerText = "Cancel";
+    xButton.addEventListener("click", () => {
+        imagesContainer.innerHTML = "";
+    })
+    imagesContainer.appendChild(xButton);
 }
 
 function toggleEraser() {
@@ -123,14 +122,13 @@ function toggleEraser() {
     if (toggle.innerText === "Eraser") {
         pencilStyle = "white";
         toggle.innerText = "Pencil";
+        onEraser = true;
     } else {
         pencilStyle = "black";
         toggle.innerText = "Eraser";
+        onEraser = false;
     }
-}
-
-function replaceCanvasImageAfterResize() {
-    
+    displayPencilSize();
 }
 
 let currentCanvasData = null;
@@ -170,7 +168,8 @@ function decreasePencil() {
 }
 
 function displayPencilSize() {
-    document.getElementById("sizeIndicator").innerText = `Current Size: ${pencilSize}px`;
+    pencilOrEraser = onEraser ? "eraser" : "pencil";
+    document.getElementById("sizeIndicator").innerText = `Current ${pencilOrEraser}: ${pencilSize}px`;
 }
 
 // Logic for quick pencil size adjustments and toggling eraser.
@@ -198,15 +197,33 @@ document.addEventListener("keypress", (e) => {
     }
 })
 
-// Adding traffic count fetch call
-// Traffic
-const request = new Request("https://server.sgambapps.com/?site=simpleDrawing", {
-    method: "POST",
-});
-fetch(request)
-.then(res => {
-    if (res.ok) {
-    console.log("visit counted");
-    }
-})
-.catch(err => console.log(err));
+const slider = document.getElementById("shadeSlider");
+const indicator = document.getElementById("shadeIndicator");
+function changeShade() {
+    const shade = slider.value;
+    const shadeStr = `rgb(${shade},${shade},${shade})`;
+    pencilStyle = shadeStr;
+    indicator.style.backgroundColor = shadeStr;
+}
+changeShade();
+
+// Traffic count logic
+const now = new Date();
+const dotw = now.getDay();
+const lastFetch = localStorage.getItem("lastFetch");
+if (lastFetch !== dotw.toString()) {
+    makeTrafficCall();
+}
+function makeTrafficCall() {
+    const request = new Request("https://server.sgambapps.com/?site=simpleDrawing", {
+        method: "POST",
+    });
+    fetch(request)
+    .then(res => {
+        if (res.ok) {
+            console.log("visit counted");
+        }
+    })
+    .catch(err => console.log(err));
+    localStorage.setItem("lastFetch", dotw.toString());
+}
