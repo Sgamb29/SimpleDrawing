@@ -7,11 +7,16 @@ let CH = document.documentElement.clientHeight;
 canvas.width = CW;
 canvas.height = CH;
 
-updateCanvasSizeIndicator();
+// updateCanvasSizeIndicator();
 
 let pencilStyle = "black";
 let pencilSize = 1;
 let onEraser = false;
+
+// For switching between pencil and eraser
+let lastPencilSize = 1;
+let lastEraserSize = 5;
+let lastShadeStyle = "black";
 
 ctx.fillStyle = "white";
 ctx.fillRect(0, 0, CW, CH);
@@ -119,16 +124,39 @@ function saveImage() {
 
 function toggleEraser() {
     const toggle = document.getElementById("eraserToggle");
-    if (toggle.innerText === "Eraser") {
+    if (!onEraser) {
+        lastShadeStyle = pencilStyle;
         pencilStyle = "white";
-        toggle.innerText = "Pencil";
+        toggle.style.backgroundColor = "pink";
         onEraser = true;
+        lastPencilSize = pencilSize;
+        pencilSize = lastEraserSize;
+        
     } else {
-        pencilStyle = "black";
-        toggle.innerText = "Eraser";
+        pencilStyle = lastShadeStyle != "white" ? lastShadeStyle : "black";
+        toggle.style.backgroundColor = "white";
         onEraser = false;
+        lastEraserSize = pencilSize;
+        pencilSize = lastPencilSize;
     }
     displayPencilSize();
+}
+
+function clearCanvas() {
+    const clearButton = document.getElementById("clearButton"); 
+    const mainText = "Clear Canvas";
+    const altText = "Confirm";
+    if (clearButton.innerText === mainText) {
+        clearButton.innerText = altText;
+        clearButton.style.backgroundColor = "red";
+    } else {
+        clearButton.innerText = mainText;
+        clearButton.style.backgroundColor = "white";
+        ctx.fillStyle = "white";
+        ctx.fillRect(0, 0, CW, CH);
+        ctx.fillStyle = onEraser ? "white" : "black";
+    }
+
 }
 
 let currentCanvasData = null;
@@ -169,7 +197,7 @@ function decreasePencil() {
 
 function displayPencilSize() {
     pencilOrEraser = onEraser ? "eraser" : "pencil";
-    document.getElementById("sizeIndicator").innerText = `Current ${pencilOrEraser}: ${pencilSize}px`;
+    document.getElementById("sizeIndicator").innerText = `${pencilOrEraser}: ${pencilSize}px`;
 }
 
 // Logic for quick pencil size adjustments and toggling eraser.

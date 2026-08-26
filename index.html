@@ -9,20 +9,21 @@
 <body>
     <div class="container">
         <h1>Simple Drawing</h1>
-        <p class="description"><em>Notes:<br>Two finger touch to scroll up/down on canvas.<br>
-        Pencil size adjustment on pc: type a number and Enter, e to toggle eraser.
+        <p class="description"><em>Notes:<br>Two finger touch to scroll on canvas.<br>
+        PC pencil adjustment: type a number then Enter, e to toggle eraser.
         <br><br></em></p>
-        <p><em>Canvas Adjustments:</em></p>
+        <!-- <p><em>Canvas Adjustments:</em></p>
         <div class="controls controls2">
             <button onclick="adjustHeight(10)">+ Height</button>
             <button onclick="adjustHeight(-10)">- Height</button>
             <button onclick="adjustWidth(10)">+ Width</button>
             <button onclick="adjustWidth(-10)">- Width</button>
         </div>
-        <p id="canvasSizeIndicator"></p>
+        <p id="canvasSizeIndicator"></p> -->
+        <button id="clearButton" onclick="clearCanvas()">Clear Canvas</button>
         <div class="controls">
             <button onclick="saveImage()">Save Image</button>
-            <p class="indicator" id="sizeIndicator">Current pencil: 1px</p>
+            <p class="indicator" id="sizeIndicator">pencil: 1px</p>
         </div>
         <p><em>Quick Size / Shade Adjustments</em></p>
         <div class="controls">
